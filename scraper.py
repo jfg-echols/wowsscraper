@@ -63,9 +63,48 @@ for nation in DDNationDivs:
             print('--')
             print(groupName)
             print('--')
-            stats = statgroup.find('div',class_='gw-popup-card_content').find('tr')
+            stats = statgroup.find('div',class_='gw-popup-card_content').find_all('tr')
             for stat in stats:
                 print(stat.text)
         # researchprice = 
         # purchaseprice =
         # hitpoints = 
+#DB data points
+# ship name string
+# country string
+# tier int
+# class string
+# researchprice int
+# purchaseprice int
+# hitpoints int
+# mbattery string
+# mbatterycount string
+# mrateoffire string
+# mreloadtime 
+# mrotationspeed
+# m180degreeturntime
+# mfiringrange
+# mmaxdispersion
+# mheshell
+# mhemaxdamage
+# mchanceoffire
+# mheshellvelocity
+# mheshellweight
+# mapshell
+# mapmaxdamage
+# mapshellvelocity
+#  mapshellweight
+# torptype
+# torprateoffire
+# torpreload
+# torprotationspeed
+# torp180degreeturntime
+# AAgun
+# AAavgdps
+# AAfiringrange
+# MAxSpeed
+# TurningCircleRadius
+# RudderShiftTime
+# SurfaceDetectability
+# AirDetectability
+# Battlelevels 
