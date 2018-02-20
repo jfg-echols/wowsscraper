@@ -46,26 +46,33 @@ for nation in DDNationDivs:
         thisDDpage.raise_for_status()
         thisDDsoup = bs4.BeautifulSoup(thisDDpage.text, "html.parser")
 
+        shiparray = {}
+
         #gets class, country, tier
         perfdiv = thisDDsoup.find('div',class_='b-performance_position')
-        shipclass = perfdiv.text.split(' | ')[0]
-        country = perfdiv.text.split(' | ')[1]
-        shiptier = perfdiv.text.split(' | ')[2]
-        
-        print(shipclass)
-        print(country)
-        print(shiptier)
+        shiparray['shipclass'] = perfdiv.text.split(' | ')[0]
+        shiparray['shipcountry'] = perfdiv.text.split(' | ')[1]
+        shiparray['shiptier'] = perfdiv.text.split(' | ')[2]
         
         #gets general, armament, toobs, maneuverability, concealment
         shipstats = thisDDsoup.find_all('div',class_='gw-popup-card b-tech-nav_item__opened')
         for statgroup in shipstats:
             groupName = statgroup.find('div',class_='b-performance_title gw-popup-card_head js-tech-nav_head').text
-            print('--')
-            print(groupName)
-            print('--')
+            # print('--')
+            # print(groupName)
+            # print('--')
             stats = statgroup.find('div',class_='gw-popup-card_content').find_all('tr')
             for stat in stats:
-                print(stat.text)
+               
+               shiparray[stat.find_all('span')[0].text] = stat.find_all('span')[1].text
+        
+        
+        
+        
+        
+        
+        print(shiparray)
+        input("Press a key to continue...")        
         # researchprice = 
         # purchaseprice =
         # hitpoints = 
