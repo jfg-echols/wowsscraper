@@ -165,6 +165,61 @@ for nation in DDNationDivs:
                 print(shipMainGunAPWeight)
             ##TODO - Secondary Armament - multiple Secondaries
 
+            elif groupName == 'Secondary Armament #1':
+                shipSec1Gun = ''
+                shipSec1GunCount = ''
+                shipSec1GunROF = ''
+                shipSec1GunReload = ''
+                shipSec1GunRotate = ''
+                shipSec1Gun180 = ''
+                shipSec1GunRange = ''
+                shipSec1GunDispersion = ''
+                shipSec1GunHEShell = ''
+                shipSec1GunHEDam = ''
+                shipSec1GunHEFire = ''
+                shipSec1GunHEVel = ''
+                shipSec1GunHEWeight = ''
+                shipSec1GunAPShell = ''
+                shipSec1GunAPDam = ''
+                shipSec1GunAPVel = ''
+                shipSec1GunAPWeight = ''
+
+                shipSec1Gun = stats[0].find('span',class_='t-performance_left').text
+                shipSec1GunCount = stats[0].find('span',class_='t-performance_right').text
+
+                for stat in stats:
+                    if stat.find('span',class_='t-performance_left').text == 'Rate of Fire':
+                        shipSec1GunROF = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Reload Time':
+                        shipSec1GunReload = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Rotation Speed':
+                        shipSec1GunRotate = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == '180 Degree Turn Time':
+                        shipSec1Gun180 = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Firing Range':
+                        shipSec1GunRange = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum Dispersion':
+                        shipSec1GunDispersion = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell':
+                        shipSec1GunHEShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum HE Shell Damage':
+                        shipSec1GunHEDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Chance of Fire on Target Caused by HE Shell':
+                        shipSec1GunHEFire = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial HE Shell Velocity':
+                        shipSec1GunHEVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell Weight':
+                        shipSec1GunHEWeight = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell':
+                        shipSec1GunAPShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum AP Shell Damage':
+                        shipSec1GunAPDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial AP Shell Velocity':
+                        shipSec1GunAPVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
+                        shipSec1GunAPWeight = stat.find('span',class_='t-performance_right').text
+
+
             elif groupName == 'Torpedo Tubes':
                 shipTorpTube = ''
                 shipTorpCount = ''
@@ -175,6 +230,26 @@ for nation in DDNationDivs:
                 shipTorpDam = ''
                 shipTorpSpeed = ''
                 shipTorpRange = ''
+
+                shipTorpTube = stats[0].find('span',class_='t-performance_left').text
+                shipTorpCount = stats[0].find('span',class_='t-performance_right').text
+
+                for stat in stats: 
+                    if stat.find('span',class_='t-performance_left').text == 'Initial HE Shell Velocity':
+                        shipTorpReload = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell Weight':
+                        shipTorpRorate = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell':
+                        shipTorp180 = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum AP Shell Damage':
+                        shipTorp = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial AP Shell Velocity':
+                        shipTorpDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
+                        shipTorpSpeed = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
+                        shipTorpRange = stat.find('span',class_='t-performance_right').text
+
 
             elif groupName == 'AA Defense':
                 shipAA = ''
@@ -188,11 +263,26 @@ for nation in DDNationDivs:
                 shipTurnRadius = ''
                 shipRudderShift = ''
 
+                for stat in stats:
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum Speed':
+                        shipSpeed = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Turning Circle Radius':
+                        shipTurnRadius = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Rudder Shift Time':
+                        shipRudderShift = stat.find('span',class_='t-performance_right').text
 
             elif groupName == 'Concealment':
                 shipSurfaceDetect = ''
                 shipAirDetect = ''
 
+                for stat in stats:
+                    if stat.find('span',class_='t-performance_left').text == 'Surface Detectability Range':
+                        shipSurfaceDetect = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Air Detectability Range':
+                        shipAirDetect = stat.find('span',class_='t-performance_right').text
+                
+            elif groupName == 'Battle Levels':
+                print('stuff i guess')
         
         #     stats = statgroup.find('div',class_='gw-popup-card_content').find_all('tr')
         #     for stat in stats:
@@ -206,45 +296,3 @@ for nation in DDNationDivs:
         
         # print(shiparray)
         input("Press a key to continue...")        
-        # researchprice = 
-        # purchaseprice =
-        # hitpoints = 
-#DB data points
-# ship name string
-# country string
-# tier int
-# class string
-# researchprice int
-# purchaseprice int
-# hitpoints int
-# mbattery string
-# mbatterycount string
-# mrateoffire string
-# mreloadtime 
-# mrotationspeed
-# m180degreeturntime
-# mfiringrange
-# mmaxdispersion
-# mheshell
-# mhemaxdamage
-# mchanceoffire
-# mheshellvelocity
-# mheshellweight
-# mapshell
-# mapmaxdamage
-# mapshellvelocity
-#  mapshellweight
-# torptype
-# torprateoffire
-# torpreload
-# torprotationspeed
-# torp180degreeturntime
-# AAgun
-# AAavgdps
-# AAfiringrange
-# MAxSpeed
-# TurningCircleRadius
-# RudderShiftTime
-# SurfaceDetectability
-# AirDetectability
-# Battlelevels 
