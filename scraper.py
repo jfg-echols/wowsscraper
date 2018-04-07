@@ -10,6 +10,7 @@ CASite = 'http://wiki.wargaming.net/en/Ship:Cruisers'
 BBSite = 'http://wiki.wargaming.net/en/Ship:Battleships'
 CVSite = 'http://wiki.wargaming.net/en/Ship:Aircraft_Carriers'
 
+sites = [DDSite, CASite, BBSite, CVSite]
 
 #testing the root site
 
@@ -17,7 +18,7 @@ CVSite = 'http://wiki.wargaming.net/en/Ship:Aircraft_Carriers'
 # rootres.raise_for_status()
 # rootSoup = bs4.BeautifulSoup(rootres.text)
 
-
+##TODO - turn this into something that isn't restricted to DD
 #get destroyer site
 DDres = requests.get(DDSite)
 DDres.raise_for_status()
@@ -163,7 +164,8 @@ for nation in DDNationDivs:
                 print(shipMainGunAPDam)
                 print(shipMainGunAPVel)
                 print(shipMainGunAPWeight)
-            ##TODO - Secondary Armament - multiple Secondaries
+
+            ###Secondary Batteries
 
             elif groupName == 'Secondary Armament #1':
                 shipSec1Gun = ''
@@ -219,6 +221,115 @@ for nation in DDNationDivs:
                     if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
                         shipSec1GunAPWeight = stat.find('span',class_='t-performance_right').text
 
+            elif groupName == 'Secondary Armament #2':
+                shipSec2Gun = ''
+                shipSec2GunCount = ''
+                shipSec2GunROF = ''
+                shipSec2GunReload = ''
+                shipSec2GunRotate = ''
+                shipSec2Gun180 = ''
+                shipSec2GunRange = ''
+                shipSec2GunDispersion = ''
+                shipSec2GunHEShell = ''
+                shipSec2GunHEDam = ''
+                shipSec2GunHEFire = ''
+                shipSec2GunHEVel = ''
+                shipSec2GunHEWeight = ''
+                shipSec2GunAPShell = ''
+                shipSec2GunAPDam = ''
+                shipSec2GunAPVel = ''
+                shipSec2GunAPWeight = ''
+
+                shipSec2Gun = stats[0].find('span',class_='t-performance_left').text
+                shipSec2GunCount = stats[0].find('span',class_='t-performance_right').text
+
+                for stat in stats:
+                    if stat.find('span',class_='t-performance_left').text == 'Rate of Fire':
+                        shipSec2GunROF = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Reload Time':
+                        shipSec2GunReload = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Rotation Speed':
+                        shipSec2GunRotate = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == '180 Degree Turn Time':
+                        shipSec2Gun180 = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Firing Range':
+                        shipSec2GunRange = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum Dispersion':
+                        shipSec2GunDispersion = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell':
+                        shipSec2GunHEShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum HE Shell Damage':
+                        shipSec2GunHEDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Chance of Fire on Target Caused by HE Shell':
+                        shipSec2GunHEFire = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial HE Shell Velocity':
+                        shipSec2GunHEVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell Weight':
+                        shipSec2GunHEWeight = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell':
+                        shipSec2GunAPShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum AP Shell Damage':
+                        shipSec2GunAPDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial AP Shell Velocity':
+                        shipSec2GunAPVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
+                        shipSec2GunAPWeight = stat.find('span',class_='t-performance_right').text
+
+            elif groupName == 'Secondary Armament #3':
+                shipSec3Gun = ''
+                shipSec3GunCount = ''
+                shipSec3GunROF = ''
+                shipSec3GunReload = ''
+                shipSec3GunRotate = ''
+                shipSec3Gun180 = ''
+                shipSec3GunRange = ''
+                shipSec3GunDispersion = ''
+                shipSec3GunHEShell = ''
+                shipSec3GunHEDam = ''
+                shipSec3GunHEFire = ''
+                shipSec3GunHEVel = ''
+                shipSec3GunHEWeight = ''
+                shipSec3GunAPShell = ''
+                shipSec3GunAPDam = ''
+                shipSec3GunAPVel = ''
+                shipSec3GunAPWeight = ''
+
+                shipSec3Gun = stats[0].find('span',class_='t-performance_left').text
+                shipSec3GunCount = stats[0].find('span',class_='t-performance_right').text
+
+                for stat in stats:
+                    if stat.find('span',class_='t-performance_left').text == 'Rate of Fire':
+                        shipSec3GunROF = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Reload Time':
+                        shipSec3GunReload = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Rotation Speed':
+                        shipSec3GunRotate = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == '180 Degree Turn Time':
+                        shipSec3Gun180 = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Firing Range':
+                        shipSec3GunRange = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum Dispersion':
+                        shipSec3GunDispersion = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell':
+                        shipSec3GunHEShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum HE Shell Damage':
+                        shipSec3GunHEDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Chance of Fire on Target Caused by HE Shell':
+                        shipSec3GunHEFire = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial HE Shell Velocity':
+                        shipSec3GunHEVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'HE Shell Weight':
+                        shipSec3GunHEWeight = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell':
+                        shipSec3GunAPShell = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Maximum AP Shell Damage':
+                        shipSec3GunAPDam = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'Initial AP Shell Velocity':
+                        shipSec3GunAPVel = stat.find('span',class_='t-performance_right').text
+                    if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
+                        shipSec3GunAPWeight = stat.find('span',class_='t-performance_right').text
+
+            ### Torpedo Tubes
 
             elif groupName == 'Torpedo Tubes':
                 shipTorpTube = ''
@@ -258,6 +369,9 @@ for nation in DDNationDivs:
                 shipAArange = ''
 
             ##TODO - multiple AA Defense
+            
+            ### Maneuverability
+            
             elif groupName == 'Maneuverability':
                 shipSpeed = ''
                 shipTurnRadius = ''
@@ -271,6 +385,8 @@ for nation in DDNationDivs:
                     if stat.find('span',class_='t-performance_left').text == 'Rudder Shift Time':
                         shipRudderShift = stat.find('span',class_='t-performance_right').text
 
+            ### Concealment
+
             elif groupName == 'Concealment':
                 shipSurfaceDetect = ''
                 shipAirDetect = ''
@@ -280,19 +396,13 @@ for nation in DDNationDivs:
                         shipSurfaceDetect = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Air Detectability Range':
                         shipAirDetect = stat.find('span',class_='t-performance_right').text
-                
-            elif groupName == 'Battle Levels':
-                print('stuff i guess')
-        
-        #     stats = statgroup.find('div',class_='gw-popup-card_content').find_all('tr')
-        #     for stat in stats:
-               
-        #        shiparray[stat.find_all('span')[0].text] = stat.find_all('span')[1].text
-        
+
+        shipBattleLevels = ""    
+        for shipBattleLevel in thisDDsoup.find('span',class_='b-battles-levels_interval'):
+            if shipBattleLevels == "":
+                shipBattleLevels = shipBattleLevel.text
+            else:
+                shipBattleLevels = shipBattleLevels + "," + shipBattleLevel.text
         
         
-        
-        
-        
-        # print(shiparray)
         input("Press a key to continue...")        
