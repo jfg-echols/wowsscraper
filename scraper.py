@@ -59,9 +59,9 @@ for nation in DDNationDivs:
         shipstats = thisDDsoup.find('div',class_='b-performance_border').find_all('div',class_='gw-popup-card b-tech-nav_item__opened')
         for statgroup in shipstats:
             groupName = statgroup.find('div',class_='b-performance_title gw-popup-card_head js-tech-nav_head').text
-            print('--')
-            print(groupName)
-            print('--')
+            # print('--')
+            # print(groupName)
+            # print('--')
             stats = statgroup.find('div',class_='gw-popup-card_content').find_all('tr')
             
             ###GENERAL STAT GROUP
@@ -73,7 +73,7 @@ for nation in DDNationDivs:
                 shipHitPoints = ''
                 shipResearch = ''
                 for stat in stats:
-                    print('--------------')
+                    # print('--------------')
                     ##TODO - strip whitespace from variables                    
                     if stat.find('span',class_='t-performance_left').text == 'Purchase price':
                         shipCurrency = stat.find('img')['alt']
@@ -83,12 +83,12 @@ for nation in DDNationDivs:
                     if stat.find('span',class_='t-performance_left').text == 'Research price':
                         shipResearch = stat.find('span',class_='t-performance_right').text
                     
-                if shipCost != 'promo':
-                    print('Currency: '+shipCurrency)
-                print('Cost: '+shipCost)
-                print('HP: '+shipHitPoints)
-                if shipResearch != '':
-                    print('ResearchXP: '+shipResearch)
+                # if shipCost != 'promo':
+                #     print('Currency: '+shipCurrency)
+                # print('Cost: '+shipCost)
+                # print('HP: '+shipHitPoints)
+                # if shipResearch != '':
+                #     print('ResearchXP: '+shipResearch)
                 #print(stats)
             
             ###MAIN BATTERY
@@ -147,23 +147,23 @@ for nation in DDNationDivs:
                     if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
                         shipMainGunAPWeight = stat.find('span',class_='t-performance_right').text
                 
-                print(shipMainGun)
-                print(shipMainGunCount)
-                print(shipMainGunROF)
-                print(shipMainGunReload)
-                print(shipMainGunRotate)
-                print(shipMainGun180)
-                print(shipMainGunRange)
-                print(shipMainGunDispersion)
-                print(shipMainGunHEShell)
-                print(shipMainGunHEDam)
-                print(shipMainGunHEFire)
-                print(shipMainGunHEVel)
-                print(shipMainGunHEWeight)
-                print(shipMainGunAPShell)
-                print(shipMainGunAPDam)
-                print(shipMainGunAPVel)
-                print(shipMainGunAPWeight)
+                # print(shipMainGun)
+                # print(shipMainGunCount)
+                # print(shipMainGunROF)
+                # print(shipMainGunReload)
+                # print(shipMainGunRotate)
+                # print(shipMainGun180)
+                # print(shipMainGunRange)
+                # print(shipMainGunDispersion)
+                # print(shipMainGunHEShell)
+                # print(shipMainGunHEDam)
+                # print(shipMainGunHEFire)
+                # print(shipMainGunHEVel)
+                # print(shipMainGunHEWeight)
+                # print(shipMainGunAPShell)
+                # print(shipMainGunAPDam)
+                # print(shipMainGunAPVel)
+                # print(shipMainGunAPWeight)
 
             ###Secondary Batteries
 
@@ -363,10 +363,52 @@ for nation in DDNationDivs:
 
 
             elif groupName == 'AA Defense':
-                shipAA = ''
-                shipAACount = ''
-                shipAADps = ''
-                shipAArange = ''
+                ship0AA = ''
+                ship0AACount = ''
+                ship0AADps = ''
+                ship0AArange = ''
+                ship1AA = ''
+                ship1AACount = ''
+                ship1AADps = ''
+                ship1AArange = ''
+                ship2AA = ''
+                ship2AACount = ''
+                ship2AADps = ''
+                ship2AArange = ''
+                ship3AA = ''
+                ship3AACount = ''
+                ship3AADps = ''
+                ship3AArange = ''
+                ship4AA = ''
+                ship4AACount = ''
+                ship4AADps = ''
+                ship4AArange = ''
+                
+                class AAgun:
+                    gun = ""
+                    guncount = ""
+                    gunrange = ""
+                    gundps = ""
+                    def __init__(self):
+                        self.data = []
+
+                    def __init__(self,gunname,count,grange,dps):
+                        self.gun = gunname
+                        self.guncount = count
+                        self.gunrange = grange
+                        self.gundps = dps
+
+                    def calculatedps(self):
+                        turrets = self.guncount.split('x')[0] 
+                        barrelsper = self.guncount.split('x')[1]
+                        totaldps = float(turrets)*float(barrelsper)*float(self.gundps)
+                        return totaldps
+
+                shipAAguns = []          
+                for stat in stats:
+                    print(stat)
+                    # if line doesn't start with '...'
+
 
             ##TODO - multiple AA Defense
             
