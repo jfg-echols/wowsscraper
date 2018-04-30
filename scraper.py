@@ -389,8 +389,6 @@ for nation in DDNationDivs:
                     guncount = ""
                     gunrange = ""
                     gundps = ""
-                    def __init__(self):
-                        self.data = []
 
                     def __init__(self,gunname,count,grange,dps):
                         self.gun = gunname
@@ -403,11 +401,48 @@ for nation in DDNationDivs:
                         barrelsper = self.guncount.split('x')[1]
                         totaldps = float(turrets)*float(barrelsper)*float(self.gundps)
                         return totaldps
+                    def print (self):
+                        print("this is my fun gun")
+                        print(self.gun)
+                        print(self.guncount)
+                        print(self.gunrange)
+                        print(self.gundps)
 
                 shipAAguns = []          
-                for stat in stats:
-                    print(stat)
-                    # if line doesn't start with '...'
+                statcount = range(0,len(stats),1)
+                thegun = ""
+                thecount = ""
+                therange = ""
+                thedps = ""
+                for i in statcount:
+                    print(i)
+                    if i%3 == 0:
+                        print(i+"%3=0")
+                        # print("turn this into the gun name and count")
+                        thegun = stats[0].find('span',class_='t-performance_left').text
+                        thecount = stats[0].find('span',class_='t-performance_right').text.replace("pcs.","").replace(' ','')
+                    if i%3 ==1:
+                        print(i+"%3=1")
+                        # print("this is going to be the dps")
+                        thedps = stats[1].find('span',class_='t-performance_right').text
+                    if i%3 == 2:
+                        print(i+"%3=2")
+                        # print("this is going to be the range")
+                        therange = stats[2].find('span',class_='t-performance_right').text
+                        newgun = AAgun(thegun,thecount,thedps,therange)
+                        shipAAguns.append(newgun)
+                        thegun = ""
+                        thecount = ""
+                        thedps = ""
+                        therange = ""
+                for gun in shipAAguns:
+                    gun.print()
+
+                    
+                
+                # for stat in stats:
+                #     print(stat)
+                #     # if line doesn't start with '...'
 
 
             ##TODO - multiple AA Defense
