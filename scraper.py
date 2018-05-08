@@ -3,6 +3,35 @@ import webbrowser
 import sys
 import bs4
 import requests
+import openpyxl
+import os
+
+from pathlib import Path
+shipssheet = Path('/results/ships.xlsx')
+
+def createsheetfile():
+    # this is broke
+    sheetfile = open(shipssheet, 'w+')
+    #
+    shpsheets = openpyxl.load_workbook(shipssheet)
+    firstsheet = shpsheets.get_sheet_by_name('sheet')
+    firstsheet.title = 'Tier 1'
+    shpsheets.create_sheet('Tier 2')
+    shpsheets.create_sheet('Tier 3')
+    shpsheets.create_sheet('Tier 4')
+    shpsheets.create_sheet('Tier 5')
+    shpsheets.create_sheet('Tier 6')
+    shpsheets.create_sheet('Tier 7')
+    shpsheets.create_sheet('Tier 8')
+    shpsheets.create_sheet('Tier 9')
+    shpsheets.create_sheet('Tier 10')
+    shpsheets.save(shpsheets)
+
+if os.path.isfile(shipssheet):
+    os.remove(shipssheet)
+    createsheetfile()
+else:
+    createsheetfile()
 
 rootSite = 'http://wiki.wargaming.net/en/World_of_Warships'
 DDSite = 'http://wiki.wargaming.net/en/Ship:Destroyers'
@@ -415,18 +444,18 @@ for nation in DDNationDivs:
                 therange = ""
                 thedps = ""
                 for i in statcount:
-                    print(i)
+                    # print(i)
                     if i%3 == 0:
-                        print(i+"%3=0")
+                        # print(str(i)+"%3=0")
                         # print("turn this into the gun name and count")
                         thegun = stats[0].find('span',class_='t-performance_left').text
                         thecount = stats[0].find('span',class_='t-performance_right').text.replace("pcs.","").replace(' ','')
                     if i%3 ==1:
-                        print(i+"%3=1")
+                        # print(str(i)+"%3=1")
                         # print("this is going to be the dps")
                         thedps = stats[1].find('span',class_='t-performance_right').text
                     if i%3 == 2:
-                        print(i+"%3=2")
+                        # print(str(i)+"%3=2")
                         # print("this is going to be the range")
                         therange = stats[2].find('span',class_='t-performance_right').text
                         newgun = AAgun(thegun,thecount,thedps,therange)
@@ -435,8 +464,8 @@ for nation in DDNationDivs:
                         thecount = ""
                         thedps = ""
                         therange = ""
-                for gun in shipAAguns:
-                    gun.print()
+                # for gun in shipAAguns:
+                    # gun.print()
 
                     
                 
@@ -480,6 +509,6 @@ for nation in DDNationDivs:
                 shipBattleLevels = shipBattleLevel.text
             else:
                 shipBattleLevels = shipBattleLevels + "," + shipBattleLevel.text
-        
+        print(shipBattleLevels)
         
         input("Press a key to continue...")        
