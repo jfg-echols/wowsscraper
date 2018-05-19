@@ -5,33 +5,35 @@ import bs4
 import requests
 import openpyxl
 import os
+import xlsxwriter
 
-from pathlib import Path
-shipssheet = Path('/results/ships.xlsx')
+##### creating the resultfile
+shipsheet = '/results/ships.xlsx'
 
-def createsheetfile():
-    # this is broke
-    sheetfile = open(shipssheet, 'w+')
-    #
-    shpsheets = openpyxl.load_workbook(shipssheet)
-    firstsheet = shpsheets.get_sheet_by_name('sheet')
-    firstsheet.title = 'Tier 1'
-    shpsheets.create_sheet('Tier 2')
-    shpsheets.create_sheet('Tier 3')
-    shpsheets.create_sheet('Tier 4')
-    shpsheets.create_sheet('Tier 5')
-    shpsheets.create_sheet('Tier 6')
-    shpsheets.create_sheet('Tier 7')
-    shpsheets.create_sheet('Tier 8')
-    shpsheets.create_sheet('Tier 9')
-    shpsheets.create_sheet('Tier 10')
-    shpsheets.save(shpsheets)
+relpath = os.path.abspath(os.path.dirname(__file__))
+resultfile = relpath+"\shipresults.xlsx"
+if os.path.exists(resultfile):
+    os.remove(resultfile)
+    print('deleted '+resultfile)
+print('creating file with xlswriter')
+xlswritership = xlsxwriter.Workbook('shipresults.xlsx')
+xlswritership.close()
+shipsheet = openpyxl.load_workbook('shipresults.xlsx')
+firstsheet = shipsheet['Sheet1']
+firstsheet.title = 'Tier1'
+shipsheet.create_sheet('Tier2')
+shipsheet.create_sheet('Tier3')
+shipsheet.create_sheet('Tier4')
+shipsheet.create_sheet('Tier5')
+shipsheet.create_sheet('Tier6')
+shipsheet.create_sheet('Tier7')
+shipsheet.create_sheet('Tier8')
+shipsheet.create_sheet('Tier9')
+shipsheet.create_sheet('Tier10')
+#resultfile created
+shipsheet.save('shipresults.xlsx')
 
-if os.path.isfile(shipssheet):
-    os.remove(shipssheet)
-    createsheetfile()
-else:
-    createsheetfile()
+
 
 rootSite = 'http://wiki.wargaming.net/en/World_of_Warships'
 DDSite = 'http://wiki.wargaming.net/en/Ship:Destroyers'
@@ -392,6 +394,9 @@ for nation in DDNationDivs:
 
 
             elif groupName == 'AA Defense':
+                ####FUCKING AA GUNS
+                #### for each ship's count of AA guns, add them to an array. When it's time to print, take the highest number of AA guns and make that the number of AA guns in the sheet
+                
                 ship0AA = ''
                 ship0AACount = ''
                 ship0AADps = ''
