@@ -7,9 +7,17 @@ import openpyxl
 import os
 import xlsxwriter
 
+rootSite = 'http://wiki.wargaming.net/en/World_of_Warships'
+DDSite = 'http://wiki.wargaming.net/en/Ship:Destroyers'
+CASite = 'http://wiki.wargaming.net/en/Ship:Cruisers'
+BBSite = 'http://wiki.wargaming.net/en/Ship:Battleships'
+CVSite = 'http://wiki.wargaming.net/en/Ship:Aircraft_Carriers'
+
+sites = [DDSite, CASite, BBSite, CVSite]
+
+
 ##### creating the resultfile
 shipsheet = '/results/ships.xlsx'
-
 relpath = os.path.abspath(os.path.dirname(__file__))
 resultfile = relpath+"\shipresults.xlsx"
 if os.path.exists(resultfile):
@@ -20,28 +28,52 @@ xlswritership = xlsxwriter.Workbook('shipresults.xlsx')
 xlswritership.close()
 shipsheet = openpyxl.load_workbook('shipresults.xlsx')
 firstsheet = shipsheet['Sheet1']
-firstsheet.title = 'Tier1'
-shipsheet.create_sheet('Tier2')
-shipsheet.create_sheet('Tier3')
-shipsheet.create_sheet('Tier4')
-shipsheet.create_sheet('Tier5')
-shipsheet.create_sheet('Tier6')
-shipsheet.create_sheet('Tier7')
-shipsheet.create_sheet('Tier8')
-shipsheet.create_sheet('Tier9')
-shipsheet.create_sheet('Tier10')
+firstsheet.title = 'BattleLevel 1'
+shipsheet.create_sheet('BattleLevel 2')
+shipsheet.create_sheet('BattleLevel 3')
+shipsheet.create_sheet('BattleLevel 4')
+shipsheet.create_sheet('BattleLevel 5')
+shipsheet.create_sheet('BattleLevel 6')
+shipsheet.create_sheet('BattleLevel 7')
+shipsheet.create_sheet('BattleLevel 8')
+shipsheet.create_sheet('BattleLevel 9')
+shipsheet.create_sheet('BattleLevel 10')
 #resultfile created
-shipsheet.save('shipresults.xlsx')
 
+##### setting the top row of each sheet
 
+toprow = [
+    'shipName',
+    'shipClass',
+    'shipCountry',
+    'shipTier',
+    'shipCurrency',
+    'shipCost',
+    'shipHitPoints',
+    'shipResearch',
+    'shipMainGun',
+    'shipMainGunCount',
+    'shipMainGunROF',
+    'shipMainGunReload',
+    'shipMainGunRotate',
+    'shipMainGun180',
+    'shipMainGunRange',
+    'shipMainGunDispersion',
+    'shipMainGunHEShell',
+    'shipMainGunHEDam',
+    'shipMainGunHEFire',
+    'shipMainGunHEVel',
+    'shipMainGunHEWeight',
+    'shipMainGunAPShell',
+    'shipMainGunAPDam',
+    'shipMainGunAPVel',
+    'shipMainGunAPWeight'
+]
+for sheet in shipsheet.worksheets:
+    print(toprow)
+    for n in range(1,len(toprow)+1):
+        sheet.cell(row=1,column=n).value = toprow[n-1]
 
-rootSite = 'http://wiki.wargaming.net/en/World_of_Warships'
-DDSite = 'http://wiki.wargaming.net/en/Ship:Destroyers'
-CASite = 'http://wiki.wargaming.net/en/Ship:Cruisers'
-BBSite = 'http://wiki.wargaming.net/en/Ship:Battleships'
-CVSite = 'http://wiki.wargaming.net/en/Ship:Aircraft_Carriers'
-
-sites = [DDSite, CASite, BBSite, CVSite]
 
 #testing the root site
 
@@ -69,23 +101,24 @@ for nation in DDNationDivs:
     DDs = nation.find_all("div",class_="tleft")
     for DD in DDs:
         fulllink = 'http://wiki.wargaming.net'+(DD.find_all("a"))[1].attrs['href']
-        name = (DD.find_all("a"))[1].text
+        shiparray = {}
+        shiparray['shipName'] = (DD.find_all("a"))[1].text
     
 
-        print('----- ' + name)
+        print('----- ' + shiparray['shipName'])
         # print(fulllink)
         thisDDpage = requests.get(fulllink)
         thisDDpage.raise_for_status()
         thisDDsoup = bs4.BeautifulSoup(thisDDpage.text, "html.parser")
 
-        shiparray = {}
+        
 
         #gets class, country, tier
         perfdiv = thisDDsoup.find('div',class_='b-performance_position')
-        shiparray['shipclass'] = perfdiv.text.split(' | ')[0]
-        shiparray['shipcountry'] = perfdiv.text.split(' | ')[1]
-        shiparray['shiptier'] = perfdiv.text.split(' | ')[2]
-        
+        shiparray['shipClass'] = perfdiv.text.split(' | ')[0]
+        shiparray['shipCountry'] = perfdiv.text.split(' | ')[1]
+        shiparray['shipTier'] = perfdiv.text.split(' | ')[2]
+        # print(shiparray)
         #gets general, armament, toobs, maneuverability, concealment
         shipstats = thisDDsoup.find('div',class_='b-performance_border').find_all('div',class_='gw-popup-card b-tech-nav_item__opened')
         for statgroup in shipstats:
@@ -99,20 +132,20 @@ for nation in DDNationDivs:
 
             if groupName == 'General':
                 
-                shipCurrency = ''
-                shipCost = ''
-                shipHitPoints = ''
-                shipResearch = ''
+                # shipCurrency = ''
+                # shipCost = ''
+                # shipHitPoints = ''
+                # shipResearch = ''
                 for stat in stats:
                     # print('--------------')
                     ##TODO - strip whitespace from variables                    
                     if stat.find('span',class_='t-performance_left').text == 'Purchase price':
-                        shipCurrency = stat.find('img')['alt']
-                        shipCost = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipCurrency'] = stat.find('img')['alt']
+                        shiparray['shipCost'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Hit Points':
-                        shipHitPoints = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipHitPoints'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Research price':
-                        shipResearch = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipResearch'] = stat.find('span',class_='t-performance_right').text
                     
                 # if shipCost != 'promo':
                 #     print('Currency: '+shipCurrency)
@@ -125,58 +158,58 @@ for nation in DDNationDivs:
             ###MAIN BATTERY
 
             elif groupName == 'Main Battery':
-                shipMainGun = ''
-                shipMainGunCount = ''
-                shipMainGunROF = ''
-                shipMainGunReload = ''
-                shipMainGunRotate = ''
-                shipMainGun180 = ''
-                shipMainGunRange = ''
-                shipMainGunDispersion = ''
-                shipMainGunHEShell = ''
-                shipMainGunHEDam = ''
-                shipMainGunHEFire = ''
-                shipMainGunHEVel = ''
-                shipMainGunHEWeight = ''
-                shipMainGunAPShell = ''
-                shipMainGunAPDam = ''
-                shipMainGunAPVel = ''
-                shipMainGunAPWeight = ''
+                # shipMainGun = ''
+                # shipMainGunCount = ''
+                # shipMainGunROF = ''
+                # shipMainGunReload = ''
+                # shipMainGunRotate = ''
+                # shipMainGun180 = ''
+                # shipMainGunRange = ''
+                # shipMainGunDispersion = ''
+                # shipMainGunHEShell = ''
+                # shipMainGunHEDam = ''
+                # shipMainGunHEFire = ''
+                # shipMainGunHEVel = ''
+                # shipMainGunHEWeight = ''
+                # shipMainGunAPShell = ''
+                # shipMainGunAPDam = ''
+                # shipMainGunAPVel = ''
+                # shipMainGunAPWeight = ''
 
-                shipMainGun = stats[0].find('span',class_='t-performance_left').text
-                shipMainGunCount = stats[0].find('span',class_='t-performance_right').text
+                shiparray['shipMainGun'] = stats[0].find('span',class_='t-performance_left').text
+                shiparray['shipMainGunCount'] = stats[0].find('span',class_='t-performance_right').text
 
                 for stat in stats:
                     if stat.find('span',class_='t-performance_left').text == 'Rate of Fire':
-                        shipMainGunROF = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunROF'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Reload Time':
-                        shipMainGunReload = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunReload'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Rotation Speed':
-                        shipMainGunRotate = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunRotate'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == '180 Degree Turn Time':
-                        shipMainGun180 = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGun180'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Firing Range':
-                        shipMainGunRange = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunRange'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Maximum Dispersion':
-                        shipMainGunDispersion = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunDispersion'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'HE Shell':
-                        shipMainGunHEShell = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunHEShell'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Maximum HE Shell Damage':
-                        shipMainGunHEDam = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunHEDam'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Chance of Fire on Target Caused by HE Shell':
-                        shipMainGunHEFire = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunHEFire'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Initial HE Shell Velocity':
-                        shipMainGunHEVel = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunHEVel'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'HE Shell Weight':
-                        shipMainGunHEWeight = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunHEWeight'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'AP Shell':
-                        shipMainGunAPShell = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunAPShell'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Maximum AP Shell Damage':
-                        shipMainGunAPDam = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunAPDam'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'Initial AP Shell Velocity':
-                        shipMainGunAPVel = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunAPVel'] = stat.find('span',class_='t-performance_right').text
                     if stat.find('span',class_='t-performance_left').text == 'AP Shell Weight':
-                        shipMainGunAPWeight = stat.find('span',class_='t-performance_right').text
+                        shiparray['shipMainGunAPWeight'] = stat.find('span',class_='t-performance_right').text
                 
                 # print(shipMainGun)
                 # print(shipMainGunCount)
@@ -514,6 +547,20 @@ for nation in DDNationDivs:
                 shipBattleLevels = shipBattleLevel.text
             else:
                 shipBattleLevels = shipBattleLevels + "," + shipBattleLevel.text
-        print(shipBattleLevels)
+        for level in shipBattleLevels.split(','):
+            # print('battle level '+level)
+            thesheet = shipsheet['BattleLevel '+level]
+            thisrow = thesheet.max_row+1
+            # print('next free row is '+str(thisrow))
+            for shipvalue in shiparray:
+                
+                # print('shipvalue we are writing is '+shipvalue)
+
+                for i in range(1,thesheet.max_column+1):
+                    if thesheet.cell(row=1,column=i).value == shipvalue:
+                        # print('the column for this value is '+str(i))
+                        # print('saving ')
+                        thesheet.cell(row=thisrow,column=i).value = shiparray[shipvalue]
         
-        input("Press a key to continue...")        
+        # input("Press a key to continue...")        
+shipsheet.save('shipresults.xlsx')
